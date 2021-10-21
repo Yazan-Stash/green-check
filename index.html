@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Green Check</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: 'Cairo', sans-serif;">
+	<div id="app">
+		<div v-if="verified" class="w-full h-24" style="background-color: rgb(3, 63, 84);">
+			<p class="pt-12 pl-4 text-white text-3xl">&lt;</p>
+		</div>
+
+		<div class="container w-full mx-auto">
+			<div class="flex justify-center">
+				<div class="w-3/4 h-16 mt-32" v-if="! verified">
+					<p class="text-gray-500">DISCLAIMER: this demo is intended for educational purposes only. The author does not hold any responsibility how it's used. Source code available <a class="text-blue-400" href="https://github.com/Yazan-Stash/green-check">here.</a></p>
+
+					<input type="text" class="mt-4 w-full h-16 p-4 border rounded-lg" placeholder="Enter your name" v-model:value="name">
+
+					<label class="w-full mt-4 mx-auto py-4 text-xl text-white text-center inline-block align-middle bg-gray-500 rounded-lg cursor-pointer">
+						<input type="file" hidden @change="onFileChange"/>
+						<svg class="mx-auto w-12 h-12 fill-current text-white" stroke="currentColor" fill="none" viewBox="0 0 2048 1792">
+	        				<path d="M1344 864q0-14-9-23l-352-352q-9-9-23-9t-23 9l-351 351q-10 12-10 24 0 14 9 23t23 9h224v352q0 13 9.5 22.5t22.5 9.5h192q13 0 22.5-9.5t9.5-22.5v-352h224q13 0 22.5-9.5t9.5-22.5zm640 288q0 159-112.5 271.5t-271.5 112.5h-1088q-185 0-316.5-131.5t-131.5-316.5q0-130 70-240t188-165q-2-30-2-43 0-212 150-362t362-150q156 0 285.5 87t188.5 231q71-62 166-62 106 0 181 75t75 181q0 76-41 138 130 31 213.5 135.5t83.5 238.5z"/>
+	    				</svg> Selphie
+					</label>
+
+					<p v-if="error" v-text="error" class="mt-4 text-red-400"></p>
+
+					<div class="w-1/2 mx-auto">
+						<button v-on:click.prevent="verify()" class="mt-32 w-full mt-4 py-4 text-xl text-white text-center bg-green-500 rounded-lg">Am I Green?</button>
+					</div>
+				</div>
+				
+			</div>
+
+			<div v-if="verified" class="pt-8" style="background-color: rgb(76, 174, 81); height: 100vh;">
+				<div class="flex justify-center ">
+	                <div>
+	                	<img :src="url" class="w-24 h-24 mx-auto rounded-full border-white border-4">
+		                <p v-text="name" class="mt-8 text-white text-xl"></p>
+	                </div>
+				</div>
+				<div class="flex justify-center">
+	                <svg class="fill-current text-white" stroke="currentColor" fill="none" viewBox="0 0 32 32" >
+	                	<path d="M 16 3 C 8.800781 3 3 8.800781 3 16 C 3 23.199219 8.800781 29 16 29 C 23.199219 29 29 23.199219 29 16 C 29 14.601563 28.8125 13.207031 28.3125 11.90625 L 26.6875 13.5 C 26.886719 14.300781 27 15.101563 27 16 C 27 22.101563 22.101563 27 16 27 C 9.898438 27 5 22.101563 5 16 C 5 9.898438 9.898438 5 16 5 C 19 5 21.695313 6.195313 23.59375 8.09375 L 25 6.6875 C 22.699219 4.386719 19.5 3 16 3 Z M 27.28125 7.28125 L 16 18.5625 L 11.71875 14.28125 L 10.28125 15.71875 L 15.28125 20.71875 L 16 21.40625 L 16.71875 20.71875 L 28.71875 8.71875 Z"/>
+	                </svg>
+                </div>
+			</div>
+		</div>
+	</div>
+<script>
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+	  	verified: false,
+	  	url: null,
+	  	name: null,
+	    // url: "https://tse1.mm.bing.net/th?id=OIP.FaXdSKVlChtpZDKH6wOpwQHaHh&pid=Api&f=1",
+	    // name: "محمد علي محمد كلاي",
+	    error: null
+	  },
+	  methods: {
+	    onFileChange(e) {
+	      const file = e.target.files[0];
+	        this.url = URL.createObjectURL(file);
+	    },
+	    verify(e) {
+	    	if (this.url == null || this.name == null) {
+	    		this.error = "Both name and selphie are needed before validating."
+	    		return
+	    	}
+
+	    	this.verified = true
+	    }
+	  }
+	})
+</script>
+</body>
+</html>
